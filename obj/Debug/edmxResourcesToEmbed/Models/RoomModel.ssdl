@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestTEduDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BookedRoomTb">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="ID_user" Type="int" Nullable="false" />
+    <Property Name="ID_room" Type="int" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RoomTb">
+    <Key>
+      <PropertyRef Name="ID_room" />
+    </Key>
+    <Property Name="ID_room" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="CreateDt" Type="datetime" Nullable="false" />
+    <Property Name="UpdateDt" Type="datetime" Nullable="false" />
+    <Property Name="CreateUser" Type="int" Nullable="false" />
+    <Property Name="UpdateUser" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserTb">
+    <Key>
+      <PropertyRef Name="ID_User" />
+    </Key>
+    <Property Name="ID_User" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="DOB" Type="datetime" Nullable="false" />
+    <Property Name="PhoneNo" Type="nchar" MaxLength="20" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="CreateDt" Type="datetime" Nullable="false" />
+    <Property Name="UpdateDt" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="fk_book_user">
+    <End Role="UserTb" Type="Self.UserTb" Multiplicity="1" />
+    <End Role="BookedRoomTb" Type="Self.BookedRoomTb" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserTb">
+        <PropertyRef Name="ID_User" />
+      </Principal>
+      <Dependent Role="BookedRoomTb">
+        <PropertyRef Name="ID_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_room_user">
+    <End Role="RoomTb" Type="Self.RoomTb" Multiplicity="1" />
+    <End Role="BookedRoomTb" Type="Self.BookedRoomTb" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RoomTb">
+        <PropertyRef Name="ID_room" />
+      </Principal>
+      <Dependent Role="BookedRoomTb">
+        <PropertyRef Name="ID_room" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestTEduDbModelStoreContainer">
+    <EntitySet Name="BookedRoomTb" EntityType="Self.BookedRoomTb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RoomTb" EntityType="Self.RoomTb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTb" EntityType="Self.UserTb" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="fk_book_user" Association="Self.fk_book_user">
+      <End Role="UserTb" EntitySet="UserTb" />
+      <End Role="BookedRoomTb" EntitySet="BookedRoomTb" />
+    </AssociationSet>
+    <AssociationSet Name="fk_room_user" Association="Self.fk_room_user">
+      <End Role="RoomTb" EntitySet="RoomTb" />
+      <End Role="BookedRoomTb" EntitySet="BookedRoomTb" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
